@@ -1,4 +1,5 @@
 from adminsortable.models import SortableMixin
+from django.conf import settings
 from django.contrib.postgres.fields import JSONField
 from django.db import models
 
@@ -37,5 +38,6 @@ class Answer(models.Model):
 
 class QuizResult(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     # answers = JSONField()  # avoid direct references to Answers. It's allow to manipulate them.

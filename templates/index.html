@@ -1,9 +1,12 @@
 {% block content %}
     {% if request.user.is_authenticated %}
-        <table>
-        <th><td>Quiz</td><td>Questions count</td><td>Result</td></th>
+        <table border="3">
+        <tr><th>Quiz</th><th>Result</th></tr>
         {% for quiz in quizzes %}
-            <tr><td>quiz.title</td><td>quiz.questions.count</td><td>Solve it!</td></tr>
+            <tr>
+                <td>{{ quiz.title }}</td>
+                <td>{% if quiz.created %}View result{% else %}<a href="#">Solve it!</a>{% endif %}</td>
+            </tr>
         {% endfor %}
         </table>
     {% else %}
