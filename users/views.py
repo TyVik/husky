@@ -8,7 +8,7 @@ from django.views.generic import FormView
 class RegistrationView(FormView):
     form_class = UserCreationForm
     success_url = None
-    template_name = 'registration.html'
+    template_name = 'registration/registration.html'
 
     def form_valid(self, form: UserCreationForm) -> HttpResponse:
         user = form.save()
