@@ -7,8 +7,8 @@ from husky.utils import namedtuple_fetchall
 
 def index(request: HttpRequest) -> HttpResponse:
     with connection.cursor() as cursor:
-        cursor.execute("""select q.id id, q.title title, r.created created from quiz_quiz q LEFT OUTER JOIN 
-            (select quiz_id, created from quiz_quizresult where user_id = %s) r on (r.quiz_id = q.id)""",
+        cursor.execute("""select q.id id, q.title title, r.id result_id from quiz_quiz q LEFT OUTER JOIN 
+            (select quiz_id, id from quiz_quizresult where user_id = %s) r on (r.quiz_id = q.id)""",
                        (request.user.id,))
         quizzes = namedtuple_fetchall(cursor)
     return render(request, 'index.html', context={'quizzes': quizzes})

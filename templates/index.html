@@ -5,7 +5,12 @@
         {% for quiz in quizzes %}
             <tr>
                 <td>{{ quiz.title }}</td>
-                <td>{% if quiz.created %}View result{% else %}<a href="#">Solve it!</a>{% endif %}</td>
+                <td>{% if quiz.result_id %}
+                        <a href="{% url 'result' quiz.result_id %}">View result</a>
+                    {% else %}
+                        <a href="{% url 'start' quiz.id %}">Solve it!</a>
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
         </table>

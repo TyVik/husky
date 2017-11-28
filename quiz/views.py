@@ -1,6 +1,6 @@
 from django.views.generic import DetailView
 
-from quiz.models import QuizResult
+from quiz.models import QuizResult, Quiz
 
 
 class QuizResultView(DetailView):
@@ -8,3 +8,7 @@ class QuizResultView(DetailView):
 
     def get_queryset(self):
         return super(QuizResultView, self).get_queryset().filter(user_id=self.request.user.id)
+
+
+class QuizView(DetailView):
+    model = Quiz
