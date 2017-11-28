@@ -66,8 +66,12 @@ WSGI_APPLICATION = 'husky.wsgi.application'
 LOGIN_REDIRECT_URL = '/'
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'husky',
+        'USER': 'husky',
+        'PASSWORD': 'husky',
+        'HOST': 'localhost',
+        'PORT': 5432
     }
 }
 
