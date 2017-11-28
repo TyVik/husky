@@ -41,3 +41,6 @@ class QuizResult(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     # answers = JSONField()  # avoid direct references to Answers. It's allow to manipulate them.
+
+    def __str__(self):
+        return 'QuizResult: {}'.format(self.id)
