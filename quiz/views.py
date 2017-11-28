@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from django.views.generic import DetailView
 
-# Create your views here.
+from quiz.models import QuizResult
+
+
+class QuizResultView(DetailView):
+    model = QuizResult
+
+    def get_queryset(self):
+        return super(QuizResultView, self).get_queryset().filter(user_id=self.request.user.id)
