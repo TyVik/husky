@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <fieldset>
+            <legend>{{ object.text }}</legend>
+            {% for answer in object.answer_set.all %}
+                <div>
+                    <input type="checkbox" id="answer_{{ answer.id }}" name="answers" value="{{ answer.id }}">
+                    <label for="answer_{{ answer.id }}">{{ answer.text }}</label>
+                </div>
+            {% endfor %}
+        </fieldset>
+        <input type="submit">
+    </form>
+{% endblock %}

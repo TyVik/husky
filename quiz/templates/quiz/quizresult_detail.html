@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {{ object }}
+    <h1>Quiz result:</h1>
+    <ul>
+        <li>Correct: {{ object.total.correct }}</li>
+        <li>Wrong: {{ object.total.wrong }}</li>
+        <li>Percent: {{ object.total.percent }}%</li>
+    </ul>
+    <a href="{% url 'index' %}">Go to index page</a>
 {% endblock %}

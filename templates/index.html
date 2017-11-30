@@ -8,7 +8,7 @@
                 <td>{% if quiz.result_id %}
                         <a href="{% url 'result' quiz.result_id %}">View result</a>
                     {% else %}
-                        <a href="{% url 'start' quiz.id %}">Solve it!</a>
+                        <a href="{% url 'quiz' quiz.id %}">Solve it!</a>
                     {% endif %}
                 </td>
             </tr>

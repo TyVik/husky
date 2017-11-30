@@ -2,6 +2,8 @@ from adminsortable.admin import SortableTabularInline, SortableAdmin
 from django.contrib import admin
 from django.core.exceptions import ValidationError
 from django.forms import BaseInlineFormSet
+from django.urls import reverse
+from django.utils.safestring import mark_safe
 
 from quiz.models import Quiz, Question, Answer, QuizResult
 
@@ -28,7 +30,13 @@ class QuestionAdmin(admin.ModelAdmin):
 
 class QuestionInline(SortableTabularInline):
     model = Question
+    fields = ('text', 'link')
+    readonly_fields = ('link',)
     extra = 0
+
+    def link(self, obj):
+        url = reverse('admin:quiz_question_change', args=(obj.id,))
+        return mark_safe('<a href="{}">Link to question</a>'.format(url))
 
 
 @admin.register(Quiz)
