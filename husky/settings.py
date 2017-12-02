@@ -63,7 +63,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'husky.wsgi.application'
+
+LOGIN_URL = 'login'
+LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',

@@ -1,5 +1,5 @@
 {% block content %}
-    <form action="{% url 'login' %}" method="post">
+    <form action="{{ request.get_full_path }}" method="post">
         {% csrf_token %}
         {{ form }}
         <input type="submit">
