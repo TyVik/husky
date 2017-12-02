@@ -45,6 +45,9 @@ class QuizResult(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     answers = JSONField()  # avoid direct references to Answers. It's allow to manipulate them.
 
+    class Meta:
+        unique_together = ('quiz', 'user')
+
     def __str__(self):
         return 'QuizResult: {}'.format(self.id)
 

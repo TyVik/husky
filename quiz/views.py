@@ -1,5 +1,6 @@
 from typing import Tuple
 
+from django.db.models import Model, QuerySet
 from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import DetailView
@@ -7,22 +8,49 @@ from django.views.generic import DetailView
 from quiz.models import QuizResult, Quiz, Question, Answer
 
 
+class AlreadySolvedException(Exception):
+    def __init__(self, quiz_result: QuizResult):
+        self.quiz_result = quiz_result
+
+    @property
+    def redirect_url(self) -> str:
+        return self.quiz_result.get_absolute_url()
+
+
+class BaseQuizzesView(DetailView):
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            return super(BaseQuizzesView, self).dispatch(request, *args, **kwargs)
+        except AlreadySolvedException as e:
+            return HttpResponseRedirect(e.redirect_url)
+
+    def check_user_permissions(self, obj: Model) -> None:
+        raise NotImplementedError
+
+
 class QuizResultView(DetailView):
     model = QuizResult
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
         return super(QuizResultView, self).get_queryset().filter(user_id=self.request.user.id)
 
 
-class QuizView(DetailView):
+class QuizView(BaseQuizzesView):
     model = Quiz
 
+    def get_object(self, queryset=None) -> Model:
+        obj = super(QuizView, self).get_object(queryset)
+        self.check_user_permissions(obj)
+        return obj
 
-class QuestionView(DetailView):
+    def check_user_permissions(self, obj: Quiz) -> None:
+        quiz_result = obj.quizresult_set.filter(user=self.request.user).first()
+        if quiz_result is not None:
+            raise AlreadySolvedException(quiz_result)
+
+
+class QuestionView(BaseQuizzesView):
     model = Question
-
-    def check_user_permissions(self, question: Question) -> None:
-        pass
 
     def get_object(self, queryset=None) -> Question:
         if queryset is None:
@@ -31,13 +59,17 @@ class QuestionView(DetailView):
         try:
             queryset = queryset.filter(quiz_id=self.kwargs['quiz_id'])
             obj = queryset[int(self.kwargs['question_num']) - 1]
-
-            self.check_user_permissions(obj)
         except:
             # Yes, catch all exceptions. Do not show user invalid result.
             # It can be meaningful to divide by 2 conditions: for wrong parameters and for access denied.
             raise Http404('Sorry, wrong question')
+        self.check_user_permissions(obj)
         return obj
+
+    def check_user_permissions(self, obj: Question) -> None:
+        quiz_result = obj.quiz.quizresult_set.filter(user=self.request.user).first()
+        if quiz_result is not None:
+            raise AlreadySolvedException(quiz_result)
 
     def post(self, request, quiz_id: str, question_num: str, *args, **kwargs) -> HttpResponseRedirect:
         def check_correct() -> Tuple[int, bool]:
