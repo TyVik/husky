@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.core.exceptions import ValidationError
 from django.forms import BaseInlineFormSet
 from django.urls import reverse
-from django.utils.safestring import mark_safe
+from django.utils.safestring import mark_safe, SafeString
 
 from quiz.models import Quiz, Question, Answer, QuizResult
 
@@ -34,7 +34,7 @@ class QuestionInline(SortableTabularInline):
     readonly_fields = ('link',)
     extra = 0
 
-    def link(self, obj):
+    def link(self, obj: Question) -> SafeString:
         url = reverse('admin:quiz_question_change', args=(obj.id,))
         return mark_safe('<a href="{}">Link to question</a>'.format(url))
 
@@ -46,5 +46,6 @@ class QuizAdmin(SortableAdmin):
 
 @admin.register(QuizResult)
 class QuizResultAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'user', 'quiz')
+    list_display = ('__str__', 'user', 'quiz', 'correct', 'wrong', 'percent')
     list_filter = ('user', 'quiz')  # use select2 widget for future
+    readonly_fields = ('correct', 'wrong', 'percent')

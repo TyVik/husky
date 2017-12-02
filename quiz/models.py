@@ -68,10 +68,13 @@ class QuizResult(models.Model):
         return reverse('result', kwargs={'pk': self.id})
 
     @property
-    def total(self):
-        correct, wrong = self.answers['correct'], self.answers['wrong']
-        return {
-            'correct': correct,
-            'wrong': wrong,
-            'percent': int(correct * 100 / (wrong + correct))
-        }
+    def correct(self) -> int:
+        return self.answers['correct']
+
+    @property
+    def wrong(self) -> int:
+        return self.answers['wrong']
+
+    @property
+    def percent(self) -> int:
+        return int(self.correct * 100 / (self.wrong + self.correct))
