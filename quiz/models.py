@@ -14,7 +14,7 @@ class Quiz(models.Model):
         verbose_name = 'Quiz'
         verbose_name_plural = 'Quizzes'
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title
 
 
@@ -26,7 +26,7 @@ class Question(SortableMixin, models.Model):
     class Meta:
         ordering = ('order',)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.text[:20]
 
 
@@ -35,7 +35,7 @@ class Answer(models.Model):
     text = models.CharField(max_length=150)
     is_correct = models.BooleanField(default=False)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.text[:20]
 
 
@@ -48,7 +48,7 @@ class QuizResult(models.Model):
     class Meta:
         unique_together = ('quiz', 'user')
 
-    def __str__(self):
+    def __str__(self) -> str:
         return 'QuizResult: {}'.format(self.id)
 
     @staticmethod

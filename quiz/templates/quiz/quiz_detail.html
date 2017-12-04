@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {{ object }}
+    {{ object.title }}
     <div>Maybe some description?</div>
     <a href="{% url 'question' quiz_id=object.id question_num=1%}">Continue</a>
 {% endblock %}
