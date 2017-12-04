@@ -9,16 +9,16 @@ class RegistrationTestCase(TestCase):
     def setUp(self):
         super(RegistrationTestCase, self).setUp()
         self.client = Client()
-        self.url = reverse('registration')
 
     def test_registration(self):
-        response = self.client.get(self.url)
+        url = reverse('registration')
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'registration/registration.html')
 
         password = get_random_string(6)
         username = get_random_string(6)
-        response = self.client.post(self.url, {'username': username, 'password1': password, 'password2': password})
+        response = self.client.post(url, {'username': username, 'password1': password, 'password2': password})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, settings.LOGIN_REDIRECT_URL)
         user = get_user(response.client)
@@ -45,10 +45,11 @@ class UserTestCase(TestCase):
         self.assertTrue(get_user(response.client).is_anonymous)
 
     def test_login(self):
-        response = self.client.get(reverse('login'))
+        url = reverse('login')
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'registration/login.html')
 
-        response = self.client.post(reverse('login'), self.credentials)
+        response = self.client.post(url, self.credentials)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(get_user(response.client), self.user)
