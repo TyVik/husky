@@ -69,6 +69,29 @@ class QuizTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'quiz/quiz_detail.html')
 
+    def test_quiz_result(self):
+        answers = {'correct': 3, 'wrong': 6}
+        quiz_result = QuizResult.objects.create(quiz=self.quizzes[0], user=self.user, answers=answers)
+        url = reverse('result', kwargs={'pk': quiz_result.id})
+        self.check_auth(url)
+
+        self.client.login(**self.credentials)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'quiz/quizresult_detail.html')
+
+        response = self.client.get(reverse('quiz', kwargs={'pk': self.quizzes[0].id}))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, url)
+
+        response = self.client.get(reverse('question', kwargs={'quiz_id': self.quizzes[0].id, 'question_num': 1}))
+        self.assertEqual(response.status_code, 404)
+
+        Question.objects.create(quiz=self.quizzes[0], text=get_random_string(10), order=0)
+        response = self.client.get(reverse('question', kwargs={'quiz_id': self.quizzes[0].id, 'question_num': 1}))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, url)
+
     def test_integration(self):
         def generate_question(quiz: Quiz, order: int) -> Question:
             question = Question.objects.create(quiz=quiz, text=get_random_string(30), order=order)
