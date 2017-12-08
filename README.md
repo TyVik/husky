@@ -17,8 +17,9 @@ This app is Django-application, and next steps may be helpfull for installation:
 postgres=# create user husky with password 'husky';
 postgers=# create database husky owner;
 ```
-3. Run ```python3 manage.py runserver 0.0.0.0:8000```
-4. Go to [http://127.0.0.1:8000](http://127.0.0.1:8000)
+3. Install requirements via ```pip install -r requirements.txt```
+4. Run ```python3 manage.py runserver 0.0.0.0:8000```
+5. Go to [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 # Admin panel
 
@@ -32,3 +33,16 @@ Administrator can manipulate with quizzes throught [admin panel](127.0.0.1:8000/
 # Technical note
 
 For simplification all user progress are store into session. It means that user can open a quiz on many devices, but he can finish only once.
+
+# Текст задания
+
+Задание сформулировано довольно широко, что позволит Вам продемонстрировать знания.
+
+Необходимо создать сервис проведения тестирования. Тесты имеют определенный порядок вопросов. У вопроса может быть один или несколько вариантов правильных ответов, пропуск вопросов не допускается.
+Пользователь должен пройти регистрацию или авторизоваться, чтобы приступить к тестированию. Зарегистрированный пользователь может пройти любой тест, после завершения теста видит результат, количество правильных/неправильных ответов и процент правильных ответов. Тест можно пройти только один раз.
+Администратор может редактировать любой из тестов и добавлять новые. Посмотреть статистику по пользователю.
+
+* Результат должен быть выложен на GitHub
+* Должен запускаться на Python 3.5 и Django 1.11 или более поздних версиях.
+* Список всех зависимостей должен храниться в requirements.txt, соответственно можно установить их командой pip install -r requirements.txt.
+* По фронту требований никаких не предъявляется. Интерфейс не будет оцениваться.
