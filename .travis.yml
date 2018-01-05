@@ -9,12 +9,13 @@ python:
   - "3.5"
   - "3.6"
 install:
-  - pip install -r requirements-travis.txt
+  - pip install -r requirements.txt
+  - pip install python-coveralls
 
 before_script:
   - psql -c "create user husky with password 'husky' createdb;" -U postgres
   - psql -c "create database husky;" -U postgres
 script: 
-  - python manage.py test
+  - coverage run manage.py test
 after_success:
   - coveralls
