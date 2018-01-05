@@ -16,6 +16,6 @@ before_script:
   - psql -c "create user husky with password 'husky' createdb;" -U postgres
   - psql -c "create database husky;" -U postgres
 script: 
-  - coverage run manage.py test
+  - coverage run --source='.' manage.py test
 after_success:
   - coveralls
