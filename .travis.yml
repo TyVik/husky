@@ -1,7 +1,15 @@
 language: python
+services:
+  - postgresql
 python:
   - "3.5"
   - "3.6"
 install:
   - pip install -r requirements.txt
-script: python manage.py test
+
+before_script:
+  - psql -c "create user husky with password 'husky'; create database husky;" -U postgres
+script: 
+  - python manage.py test
+after_success:
+  - coveralls
