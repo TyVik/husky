@@ -8,7 +8,8 @@ install:
   - pip install -r requirements.txt
 
 before_script:
-  - psql -c "create user husky with password 'husky'; create database husky;" -U postgres
+  - psql -c "create user husky with password 'husky';" -U postgres
+  - psql -c "create database husky;" -U postgres
 script: 
   - python manage.py test
 after_success:
