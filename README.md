@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/TyVik/husky.svg?branch=master)](https://travis-ci.org/TyVik/husky)
+[![Coverage Status](https://coveralls.io/repos/github/TyVik/husky/badge.svg)](https://coveralls.io/github/TyVik/husky)
 
 This demo application is designed for create and solve quizzes. 
 
