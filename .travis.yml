@@ -9,7 +9,7 @@ python:
   - "3.5"
   - "3.6"
 install:
-  - pip install -r requirements.txt
+  - pip install -r requirements-travis.txt
 
 before_script:
   - psql -c "create user husky with password 'husky' createdb;" -U postgres
