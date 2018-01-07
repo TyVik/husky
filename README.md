@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/TyVik/husky.svg?branch=master)](https://travis-ci.org/TyVik/husky)
 [![Coverage Status](https://coveralls.io/repos/github/TyVik/husky/badge.svg)](https://coveralls.io/github/TyVik/husky)
+[![Python versions](https://img.shields.io/badge/python-3.5%2C%203.6-blue.svg)](https://github.com/TyVik/husky)
+
 
 This demo application is designed for create and solve quizzes. 
 
